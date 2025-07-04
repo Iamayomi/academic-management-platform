@@ -16,9 +16,9 @@ export default function AIAssistant({ user }) {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      setRecommendations(res.data.courses);
+      setRecommendations(res.data.data.courses);
     } catch (error) {
-      console.error("Recommendation error:", error.response?.data);
+      console.error("Recommendation error:", error.response?.data?.response?.message);
     }
   };
 

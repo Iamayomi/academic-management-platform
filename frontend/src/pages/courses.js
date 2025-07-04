@@ -24,9 +24,9 @@ export default function Courses() {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/courses`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setCourses(res.data);
+        setCourses(res.data.data);
       } catch (error) {
-        console.error("Fetch error:", error.response?.data);
+        console.error("Fetch error:", error.response?.data?.response?.message);
       }
     };
 
@@ -45,9 +45,9 @@ export default function Courses() {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/courses`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setCourses(res.data);
+      setCourses(res.data.data);
     } catch (error) {
-      console.error("Create course error:", error.response?.data);
+      console.error("Create course error:", error.response?.data?.response?.message);
     }
   };
 
@@ -59,9 +59,9 @@ export default function Courses() {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/courses`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setCourses(res.data);
+      setCourses(res.data.data);
     } catch (error) {
-      console.error("Enroll error:", error.response?.data);
+      console.error("Enroll error:", error.response?.data?.response?.message);
     }
   };
 
@@ -75,7 +75,7 @@ export default function Courses() {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/courses`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setCourses(res.data);
+      setCourses(res.data.data);
     } catch (error) {
       console.error("Drop error:", error.response?.data);
     }
@@ -85,7 +85,7 @@ export default function Courses() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Courses</h1>
+      <h1 className="text-3xl text-black font-bold mb-6">Courses</h1>
       {user.role === "lecturer" && (
         <div className="mb-6">
           <h2 className="text-2xl font-semibold mb-4">Create Course</h2>

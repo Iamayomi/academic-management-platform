@@ -1,18 +1,22 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Layout({ children }) {
-  let user = {};
-  if (typeof window !== "undefined") {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser && storedUser !== "undefined") {
       try {
-        user = JSON.parse(storedUser);
+        setUser(JSON.parse(storedUser));
       } catch (e) {
         console.error("Error parsing user from localStorage:", e);
-        localStorage.removeItem("user"); // Clear invalid data
+        localStorage.removeItem("user");
       }
     }
-  }
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-100">

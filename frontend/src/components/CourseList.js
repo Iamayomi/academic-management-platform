@@ -7,7 +7,7 @@ export default function CourseList({ courses, role }) {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/courses/enroll`, { courseId }, { headers: { Authorization: `Bearer ${token}` } });
       window.location.reload();
     } catch (error) {
-      console.error("Enroll error:", error.response?.data);
+      console.error("Enroll error:", error.response?.data?.response?.message);
     }
   };
 
@@ -19,12 +19,12 @@ export default function CourseList({ courses, role }) {
       });
       window.location.reload();
     } catch (error) {
-      console.error("Drop error:", error.response?.data);
+      console.error("Drop error:", error.response?.data?.response?.message);
     }
   };
 
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-4 text-black">
       {courses.map((course) => (
         <li key={course.id} className="border p-4 rounded">
           <h3 className="text-xl font-semibold">{course.title}</h3>

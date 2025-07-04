@@ -1,7 +1,7 @@
 export default function Notification({ notifications }) {
   return (
     <div className="mb-6">
-      <h2 className="text-2xl font-semibold mb-4">Notifications</h2>
+      <h2 className="text-2xl text-black font-semibold mb-4">Notifications</h2>
       <ul className="space-y-2">
         {notifications.map((msg, index) => (
           <li key={index} className="bg-yellow-100 p-2 rounded">

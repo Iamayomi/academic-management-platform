@@ -1,3 +1,4 @@
+import { useState } from "react";
 import axios from "axios";
 
 export default function AssignmentList({ assignments, role }) {
@@ -10,12 +11,12 @@ export default function AssignmentList({ assignments, role }) {
       setGrade("");
       window.location.reload();
     } catch (error) {
-      console.error("Grade assignment error:", error.response?.data);
+      console.error("Grade assignment error:", error.response?.data?.response?.message);
     }
   };
 
   return (
-    <ul className="space-y-4">
+    <ul className="space-y-4 text-black">
       {assignments.map((assignment) => (
         <li key={assignment.id} className="border p-4 rounded">
           <p>Course ID: {assignment.courseId}</p>

@@ -24,9 +24,9 @@ export default function Assignments() {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/assignments`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        setAssignments(res.data);
+        setAssignments(res.data.data);
       } catch (error) {
-        console.error("Fetch error:", error.response?.data);
+        console.error("Fetch error:", error.response?.data?.response?.message);
       }
     };
 
@@ -44,9 +44,9 @@ export default function Assignments() {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/assignments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setAssignments(res.data);
+      setAssignments(res.data.data);
     } catch (error) {
-      console.error("Submit assignment error:", error.response?.data);
+      console.error("Submit assignment error:", error.response?.data?.response?.message);
     }
   };
 
@@ -59,9 +59,9 @@ export default function Assignments() {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/assignments`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setAssignments(res.data);
+      setAssignments(res.data.data);
     } catch (error) {
-      console.error("Grade assignment error:", error.response?.data);
+      console.error("Grade assignment error:", error.response?.data?.response?.message);
     }
   };
 
@@ -69,13 +69,13 @@ export default function Assignments() {
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Assignments</h1>
+      <h1 className="text-3xl text-black font-bold mb-6">Assignments</h1>
       {user.role === "student" && (
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold mb-4">Submit Assignment</h2>
+          <h2 className="text-2xl text-black font-semibold mb-4">Submit Assignment</h2>
           <div>
             <div className="mb-4">
-              <label className="block text-gray-700">Course ID</label>
+              <label className="block  text-gray-700">Course ID</label>
               <input type="number" value={courseId} onChange={(e) => setCourseId(e.target.value)} className="w-full p-2 border rounded" required />
             </div>
             <div className="mb-4">

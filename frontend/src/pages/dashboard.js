@@ -45,10 +45,10 @@ export default function Dashboard() {
           const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-          setData(res.data);
+          setData(res.data.data);
         }
       } catch (error) {
-        console.error("Fetch error:", error.response?.data);
+        console.error("Fetch error:", error.response?.data?.response?.message);
       }
     };
 
@@ -78,7 +78,7 @@ export default function Dashboard() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">{user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard</h1>
+        <h1 className="text-3xl text-black font-bold">{user.role.charAt(0).toUpperCase() + user.role.slice(1)} Dashboard</h1>
         <button onClick={handleLogout} className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
           Logout
         </button>
@@ -86,17 +86,17 @@ export default function Dashboard() {
       <Notification notifications={notifications} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Courses</h2>
+          <h2 className="text-2xltext-black text-black font-semibold mb-4">Courses</h2>
           <CourseList courses={data.courses} role={user.role} />
         </div>
         <div>
-          <h2 className="text-2xl font-semibold mb-4">Assignments</h2>
+          <h2 className="text-2xl text-black font-semibold mb-4">Assignments</h2>
           <AssignmentList assignments={data.assignments} role={user.role} />
         </div>
       </div>
       {user.role === "admin" && (
         <div className="mt-6">
-          <h2 className="text-2xl font-semibold mb-4">Overview</h2>
+          <h2 className="text-2xl  text-black font-semibold mb-4">Overview</h2>
           <p>Total Students: {data.overview.totalStudents || 0}</p>
           <p>Total Courses: {data.overview.totalCourses || 0}</p>
         </div>

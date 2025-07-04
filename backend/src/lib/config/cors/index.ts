@@ -3,6 +3,7 @@ const prodOrigin = ['http://localhost:4173', 'http://localhost:3000'];
 /** Development origins */
 const devOrigin = [
   'http://localhost:8080',
+  'ws://localhost:3000',
   'http://localhost:3000',
   `http://localhost:${process.env.PORT}`,
   '[::1]:3000',
