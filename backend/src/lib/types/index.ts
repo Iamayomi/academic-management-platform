@@ -10,4 +10,6 @@ export interface decoded {
   userId: number;
   email: string;
   role: TROLES;
+  iat?: number;
+  exp?: number;
 }

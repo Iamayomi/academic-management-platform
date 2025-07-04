@@ -25,20 +25,20 @@ import { GuardRoute, RoleAllowed } from 'src/lib';
 export class CoursesController {
   constructor(private coursesService: CoursesService) {}
 
-  @RoleAllowed('lecturer')
-  @GuardRoute()
+  // @RoleAllowed('lecturer')
+  // @GuardRoute()
   @Post()
-  @UseInterceptors(
-    FileInterceptor('syllabus', {
-      storage: diskStorage({ destination: './uploads' }),
-    }),
-  )
+  // @UseInterceptors(
+  //   FileInterceptor('syllabus', {
+  //     storage: diskStorage({ destination: './uploads' }),
+  //   }),
+  // )
   async create(
     @Body() dto: CreateCourseDto,
-    @Request() req,
-    @UploadedFile() file: Express.Multer.File,
+    // @Request() req,
+    // @UploadedFile() file?: Express.Multer.File,
   ) {
-    return this.coursesService.createCourse(dto, req.user, file);
+    return this.coursesService.createCourse(dto);
   }
 
   @RoleAllowed('lecturer')

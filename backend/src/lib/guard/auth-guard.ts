@@ -25,12 +25,16 @@ export class JWTAuthGuard extends AuthGuard('jwt') {
     // Extract the token
     const token: string = authHeader.split(' ')[1];
 
+    if (!token) {
+      throw new UnauthorizedException('Token not provided');
+    }
+
     const decoded: decoded = await this.jwtService.verifyAsync<decoded>(token);
 
     if (!decoded || !decoded.userId || !decoded.email)
       throw new UnauthorizedException('Session expired, please log in again.');
 
-    // request.user = decoded;
+    request.user = decoded;
 
     return true;
   }

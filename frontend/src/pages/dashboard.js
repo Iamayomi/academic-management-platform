@@ -32,22 +32,24 @@ export default function Dashboard() {
       localStorage.removeItem("token");
       router.push("/login");
     }
+  }, [router]);
 
+  useEffect(() => {
     const fetchData = async () => {
       try {
         let endpoint;
         if (user?.role === "student") {
-          endpoint = "/students/dashboard";
+          endpoint = "/courses/students/dashboard";
         } else if (user?.role === "lecturer") {
-          endpoint = "/lecturers/dashboard";
+          endpoint = "/courses/lecturers/dashboard";
         } else if (user?.role === "admin") {
-          endpoint = "/admins/dashboard";
+          endpoint = "/courses/admins/dashboard";
         }
         if (endpoint) {
           const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
-          console.log("Dashboard data:", res.data);
+          console.log("Dashboard data:", res.data.data);
           setData(res.data.data);
         }
       } catch (error) {
@@ -58,24 +60,19 @@ export default function Dashboard() {
     if (user) {
       fetchData();
     }
+  }, [user]);
 
-    // WebSocket for real-time notifications
-    // const ws = new WebSocket("ws://localhost:3000");
-    // ws.onopen = () => console.log("WebSocket connected");
-    // ws.onmessage = (event) => {
-    //   try {
-    //     const message = JSON.parse(event.data); // Parse message if backend sends JSON
-    //     setNotifications((prev) => [...prev, message]);
-    //   } catch (e) {
-    //     console.error("Error parsing WebSocket message:", e);
-    //     setNotifications((prev) => [...prev, event.data]);
-    //   }
-    // };
-    // ws.onerror = (error) => console.error("WebSocket error:", error);
-    // ws.onclose = () => console.log("WebSocket disconnected");
+  useEffect(() => {
+    if (!user) return;
 
-    // return () => ws.close();
-  }, [user, router]);
+    const ws = new WebSocket("ws://localhost:3000");
+
+    ws.onopen = () => console.log("WebSocket connected");
+    ws.onmessage = (event) => setNotifications((prev) => [...prev, event.data]);
+    ws.onclose = () => console.log("WebSocket disconnected");
+
+    return () => ws.close();
+  }, [user]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -107,8 +104,8 @@ export default function Dashboard() {
       {user.role === "admin" && (
         <div className="mt-6">
           <h2 className="text-2xl text-gray-500 font-semibold mb-4">Overview</h2>
-          <p>Total Students: {data.overview.totalStudents || 0}</p>
-          <p>Total Courses: {data.overview.totalCourses || 0}</p>
+          <p className="text-gray-500">Total Students: {data.overview.totalStudents || 0}</p>
+          <p className="text-gray-500">Total Courses: {data.overview.totalCourses || 0}</p>
         </div>
       )}
     </div>

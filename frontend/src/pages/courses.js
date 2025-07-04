@@ -37,7 +37,10 @@ export default function Courses() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
+      console.log("Creating course with:", { title, credits, syllabus });
+
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/courses`, { title, credits: parseInt(credits), syllabus }, { headers: { Authorization: `Bearer ${token}` } });
+
       setTitle("");
       setCredits("");
       setSyllabus("");
@@ -88,19 +91,19 @@ export default function Courses() {
       <h1 className="text-3xl text-black font-bold mb-6">Courses</h1>
       {user.role === "lecturer" && (
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold mb-4">Create Course</h2>
+          <h2 className="text-2xl  text-gray-700 font-semibold mb-4">Create Course</h2>
           <div>
             <div className="mb-4">
               <label className="block text-gray-700">Title</label>
-              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 border rounded" required />
+              <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} className="w-full p-2 text-black border rounded" required />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700">Credits</label>
-              <input type="number" value={credits} onChange={(e) => setCredits(e.target.value)} className="w-full p-2 border rounded" required />
+              <input type="number" value={credits} onChange={(e) => setCredits(e.target.value)} className="w-full p-2 text-black border rounded" required />
             </div>
             <div className="mb-4">
               <label className="block text-gray-700">Syllabus</label>
-              <textarea value={syllabus} onChange={(e) => setSyllabus(e.target.value)} className="w-full p-2 border rounded" />
+              <textarea value={syllabus} onChange={(e) => setSyllabus(e.target.value)} className="w-full p-2 text-black border rounded" />
             </div>
             <button onClick={handleCreateCourse} className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
               Create Course
@@ -109,13 +112,13 @@ export default function Courses() {
         </div>
       )}
       <div>
-        <h2 className="text-2xl font-semibold mb-4">Available Courses</h2>
+        <h2 className="text-2xl text-gray-500 font-semibold mb-4">Available Courses</h2>
         <ul className="space-y-4">
           {courses.map((course) => (
-            <li key={course.id} className="border p-4 rounded">
+            <li key={course.id} className="border p-4 text-gray-500  rounded">
               <h3 className="text-xl font-semibold">{course.title}</h3>
-              <p>Credits: {course.credits}</p>
-              <p>Syllabus: {course.syllabus || "N/A"}</p>
+              <p className="text-gray-700">Credits: {course.credits}</p>
+              <p className="text-gray-700">Syllabus: {course.syllabus || "N/A"}</p>
               {user.role === "student" && (
                 <div className="mt-2">
                   {course.enrolled ? (

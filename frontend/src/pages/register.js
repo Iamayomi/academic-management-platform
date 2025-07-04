@@ -48,7 +48,7 @@ export default function Register() {
           <button onClick={handleRegister} className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
             Register
           </button>
-          <p className="mt-4 text-center">
+          <p className="mt-4 text-gray-500 text-center">
             Already have an account?{" "}
             <a href="/login" className="text-blue-500">
               Login

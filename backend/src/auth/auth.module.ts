@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { PrismaService } from '../../prisma/prisma.service';
@@ -8,9 +9,15 @@ import { JWT_SECRET, TIME_IN } from '../lib';
 
 @Module({
   imports: [
-    JwtModule.register({
-      secret: JWT_SECRET,
-      signOptions: { expiresIn: TIME_IN.minutes[30] },
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>(JWT_SECRET),
+        signOptions: {
+          expiresIn: TIME_IN.minutes[30], // Token expires in 7 days
+        },
+      }),
+      inject: [ConfigService],
+      global: true,
     }),
   ],
   controllers: [AuthController],

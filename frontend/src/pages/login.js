@@ -53,7 +53,7 @@ export default function Login() {
           <button onClick={handleLogin} className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
             Login
           </button>
-          <p className="mt-4 text-center">
+          <p className="mt-4 text-gray-500 text-center">
             Don't have an account?{" "}
             <a href="/register" className="text-blue-500">
               Register
