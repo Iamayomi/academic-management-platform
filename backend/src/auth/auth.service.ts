@@ -34,6 +34,6 @@ export class AuthService {
 
     if (!token) throw new UnauthorizedException('Token generation failed');
 
-    return { access_token: token, token_type: 'bearer' };
+    return { access_token: token, token_type: 'bearer', user: user };
   }
 }

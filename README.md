@@ -8,6 +8,6 @@ A scalable University CRM system with role-based access control, role-specific d
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone git@github.com:Iamayomi/academic-management-platform.git
    cd academic-management-platform
    ```

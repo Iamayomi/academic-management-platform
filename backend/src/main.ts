@@ -7,9 +7,9 @@ import { WsAdapter } from '@nestjs/platform-ws';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('/api/v1/');
-
   app.enableCors(corsOptions);
+
+  app.setGlobalPrefix('/api/v1/');
 
   const { httpAdapter } = app.get(HttpAdapterHost);
 

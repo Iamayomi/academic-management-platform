@@ -6,10 +6,11 @@ import { REDIS_CLOUD_URL } from '../config';
 @Injectable()
 export class RedisService implements OnModuleInit, OnModuleDestroy {
   private client: Redis;
-  //  this.configService.get<string>(REDIS_CLOUD_URL)
+
   constructor(private configService: ConfigService) {
     this.client = new Redis(
-      process.env.REDIS_CLOUD_URL || 'redis://localhost:6379',
+      this.configService.get<string>(REDIS_CLOUD_URL) ||
+        'redis://localhost:6379',
       {
         maxRetriesPerRequest: 3,
         retryStrategy: (times) => Math.min(times * 50, 2000),
