@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -45,10 +47,11 @@ export default function Dashboard() {
           const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
+          console.log("Dashboard data:", res.data);
           setData(res.data.data);
         }
       } catch (error) {
-        console.error("Fetch error:", error.response?.data?.response?.message);
+        console.error("Fetch error:", error.response?.data);
       }
     };
 
@@ -57,14 +60,21 @@ export default function Dashboard() {
     }
 
     // WebSocket for real-time notifications
-    const ws = new WebSocket("ws://localhost:3000");
-    ws.onopen = () => console.log("WebSocket connected");
-    ws.onmessage = (event) => {
-      setNotifications((prev) => [...prev, event.data]);
-    };
-    ws.onclose = () => console.log("WebSocket disconnected");
+    // const ws = new WebSocket("ws://localhost:3000");
+    // ws.onopen = () => console.log("WebSocket connected");
+    // ws.onmessage = (event) => {
+    //   try {
+    //     const message = JSON.parse(event.data); // Parse message if backend sends JSON
+    //     setNotifications((prev) => [...prev, message]);
+    //   } catch (e) {
+    //     console.error("Error parsing WebSocket message:", e);
+    //     setNotifications((prev) => [...prev, event.data]);
+    //   }
+    // };
+    // ws.onerror = (error) => console.error("WebSocket error:", error);
+    // ws.onclose = () => console.log("WebSocket disconnected");
 
-    return () => ws.close();
+    // return () => ws.close();
   }, [user, router]);
 
   const handleLogout = () => {
@@ -86,17 +96,17 @@ export default function Dashboard() {
       <Notification notifications={notifications} />
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
-          <h2 className="text-2xltext-black text-black font-semibold mb-4">Courses</h2>
+          <h2 className="text-2xl text-gray-500 font-semibold mb-4">Courses</h2>
           <CourseList courses={data.courses} role={user.role} />
         </div>
         <div>
-          <h2 className="text-2xl text-black font-semibold mb-4">Assignments</h2>
+          <h2 className="text-2xl text-gray-500 font-semibold mb-4">Assignments</h2>
           <AssignmentList assignments={data.assignments} role={user.role} />
         </div>
       </div>
       {user.role === "admin" && (
         <div className="mt-6">
-          <h2 className="text-2xl  text-black font-semibold mb-4">Overview</h2>
+          <h2 className="text-2xl text-gray-500 font-semibold mb-4">Overview</h2>
           <p>Total Students: {data.overview.totalStudents || 0}</p>
           <p>Total Courses: {data.overview.totalCourses || 0}</p>
         </div>
