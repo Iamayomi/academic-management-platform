@@ -12,9 +12,9 @@ model User {
   email    String       @unique
   password String
   role     String
-  courses  Course[]     @relation("LecturerCourses")
   enrollments Enrollment[]
-  assignments Assignment[]
+  courses  Course[]        @relation("LecturerCourses")
+  assignments Assignment[] @relation("StudentAssignments")
 }
 
 model Course {
@@ -40,9 +40,9 @@ model Enrollment {
 model Assignment {
   id         Int      @id @default(autoincrement())
   courseId   Int
-  studentId  Int
+  studentId  Int?
   file       String?
   grade      Float?
   course     Course   @relation(fields: [courseId], references: [id])
-  student    User     @relation(fields: [studentId], references: [id])
+  student    User?    @relation("StudentAssignments", fields: [studentId], references: [id])
 }

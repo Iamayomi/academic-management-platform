@@ -20,26 +20,26 @@ export class CoursesService {
 
   public async createCourse(
     dto: CreateCourseDto,
-    // user: any,
-    // file?: Express.Multer.File,
+    user: any,
+    file?: Express.Multer.File,
   ) {
-    console.log(dto.credits, dto.title);
+    console.log(user.userId);
 
-    // const course = await this.prisma.course.create({
-    //   data: {
-    //     title: dto.title,
-    //     credits: dto.credits,
-    //     lecturerId: user.id,
-    //     syllabus: file ? `uploads/${file.filename}` : null,
-    //   },
-    // });
+    const course = await this.prisma.course.create({
+      data: {
+        title: dto.title,
+        credits: dto.credits,
+        lecturerId: user.userId,
+        syllabus: file ? `uploads/${file.filename}` : null,
+      },
+    });
 
-    // await this.redisService.publish(
-    //   NOTIFICATIONS,
-    //   `New course created: ${dto.title}`,
-    // );
+    await this.redisService.publish(
+      NOTIFICATIONS,
+      `New course created: ${dto.title}`,
+    );
 
-    // return course;
+    return course;
   }
 
   public async updateCourse(

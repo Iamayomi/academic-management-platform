@@ -12,7 +12,7 @@ export class RolesGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const requiredRole = this.reflector.getAllAndOverride<TROLES>('role', [
+    const requiredRole = this.reflector.getAllAndOverride<TROLES[]>('roles', [
       context.getHandler(),
       context.getClass(),
     ]);
@@ -23,6 +23,6 @@ export class RolesGuard implements CanActivate {
 
     if (!user || !user.roles) throw new UnauthorizedException();
 
-    return requiredRole === user.roles.role;
+    return requiredRole.some((role) => user.roles === role);
   }
 }

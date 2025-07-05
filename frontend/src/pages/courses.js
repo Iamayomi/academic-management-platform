@@ -37,7 +37,6 @@ export default function Courses() {
     e.preventDefault();
     try {
       const token = localStorage.getItem("token");
-      console.log("Creating course with:", { title, credits, syllabus });
 
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/courses`, { title, credits: parseInt(credits), syllabus }, { headers: { Authorization: `Bearer ${token}` } });
 
