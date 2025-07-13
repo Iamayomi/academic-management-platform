@@ -7,8 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Bell, Settings, LogOut, Menu, X, GraduationCap, Bot } from "lucide-react";
-import AIAssistant from "@/components/ai/ai-assistant";
-import NotificationCenter from "@/components/notifications/notification-center";
+import AIAssistant from "@/components/ai-asistance";
+import NotificationCenter from "@/components/notification";
 import { useWebSocket } from "@/lib/websocket";
 
 interface DashboardLayoutProps {

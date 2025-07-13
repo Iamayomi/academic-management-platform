@@ -8,6 +8,8 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { PrismaService } from '../prisma/prisma.service';
 import { AppConfigModule } from './lib/config/config.module';
 import { RedisModule, ResponseInterceptor } from './lib';
+import { UserService } from './user/user.service';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { RedisModule, ResponseInterceptor } from './lib';
     AssignmentsModule,
     AiModule,
     NotificationsModule,
+    UserModule,
   ],
 
   providers: [
@@ -26,6 +29,7 @@ import { RedisModule, ResponseInterceptor } from './lib';
       provide: APP_INTERCEPTOR,
       useClass: ResponseInterceptor,
     },
+    UserService,
   ],
 })
 export class AppModule {}

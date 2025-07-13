@@ -3,30 +3,28 @@ import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '../../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto, RegisterDto } from './dto/auth.dto';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
+    private userService: UserService,
     private jwtService: JwtService,
   ) {}
 
   public async register(dto: RegisterDto) {
     // Check if the email is already registered
-    const user = await this.prisma.user.findUnique({
-      where: { email: dto.email },
-    });
+    const user = await this.userService.findOneByEmail(dto.email);
     if (user) throw new UnauthorizedException('Email already registered');
 
     const hashPassword = await bcrypt.hash(dto.password, 10);
 
-    await this.prisma.user.create({
-      data: {
-        email: dto.email,
-        name: dto.name,
-        password: hashPassword,
-        role: dto.role,
-      },
+    await this.userService.createUser({
+      email: dto.email,
+      name: dto.name,
+      password: hashPassword,
+      role: dto.role,
     });
     return { message: 'User registered successfully' };
   }

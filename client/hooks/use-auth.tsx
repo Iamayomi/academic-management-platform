@@ -30,20 +30,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isLoading,
     error,
   } = useQuery<User | null, Error>({
-    queryKey: ["/api/users/me"],
+    queryKey: [`/user/me/`],
     queryFn: getQueryFn({ on401: "returnNull" }),
-    refetchOnWindowFocus: false,
-    staleTime: 5 * 60 * 1000, // Override default Infinity for user data
+    // refetchOnWindowFocus: false,
+    // staleTime: 5 * 60 * 1000, // Override default Infinity for user data
   });
+
+  // console.log("User", data);
 
   const loginMutation = useMutation<AuthResponse, Error, LoginData>({
     mutationFn: async (credentials) => {
       const res = await apiRequest("POST", "/auth/login", credentials);
+
       return await res.json();
     },
     onSuccess: (data) => {
       setAuthToken(data.token);
-      queryClient.setQueryData(["/users/me"], data.user);
+      queryClient.setQueryData(["/user/me"], data.user);
       toast({
         title: "Login successful",
         description: `Welcome back, ${data.user.name}!`,
@@ -52,11 +55,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       router.push("/profile");
     },
     onError: (error) => {
-      toast({
-        title: "Login failed",
-        description: error.message,
-        variant: "destructive",
-      });
+      console.log(error);
+
+      // toast({
+      //   title: "Login failed",
+      //   description: error.message,
+      //   variant: "destructive",
+      // });
     },
   });
 
@@ -67,10 +72,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     },
     onSuccess: (data) => {
       setAuthToken(data.token);
-      queryClient.setQueryData(["/users/me"], data.user);
+      queryClient.setQueryData(["/user/me"], data.user);
       toast({
         title: "Registration successful",
-        description: `Welcome to 99wiwi Casino, ${data.user.name}!`,
+        description: `Welcome to , ${data.user.name}!`,
         // variant: "success",
       });
       router.push("/profile");
@@ -89,7 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       removeAuthToken();
     },
     onSuccess: () => {
-      queryClient.setQueryData(["/api/users/me"], null);
+      queryClient.setQueryData(["/user/me"], null);
       queryClient.clear();
       toast({
         title: "Logged out",

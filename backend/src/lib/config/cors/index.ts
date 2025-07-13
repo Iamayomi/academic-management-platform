@@ -4,7 +4,7 @@ const prodOrigin = ['http://localhost:4173', 'http://localhost:3000'];
 const devOrigin = [
   'http://localhost:8080',
   'ws://localhost:3000',
-  'http://localhost:3000',
+  'http://localhost:3001',
   `http://localhost:${process.env.PORT}`,
   '[::1]:3000',
   '[::1]:4173',
@@ -33,6 +33,8 @@ export const corsOptions: CorsOptions = {
     'Authorization',
     'authorization',
     'Origin',
+    'Cache-Control',
+    'Pragma',
     'X-Requested-With',
     'Accept',
   ],

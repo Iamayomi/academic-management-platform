@@ -9,7 +9,7 @@ async function bootstrap() {
 
   app.enableCors(corsOptions);
 
-  // app.setGlobalPrefix('/api/v1/');
+  app.setGlobalPrefix('/api/v1/');
 
   const { httpAdapter } = app.get(HttpAdapterHost);
 

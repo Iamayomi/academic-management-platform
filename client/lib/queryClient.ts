@@ -22,7 +22,11 @@ async function throwIfResNotOk(res: Response) {
   }
 }
 
-export async function apiRequest(method: string, url: string, data?: unknown | undefined): Promise<Response> {
+export async function apiRequest(method: string, endpoint: string, data?: unknown | undefined): Promise<Response> {
+  const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
+  const url = `${BASE_URL}${endpoint.startsWith("/") ? endpoint : `/${endpoint}`}`;
+  console.log("Base URL:", BASE_URL);
   console.log(`API request: ${method} ${url}`);
 
   // Create headers object with cache control
@@ -59,7 +63,8 @@ type UnauthorizedBehavior = "returnNull" | "throw";
 export const getQueryFn: <T>(options: { on401: UnauthorizedBehavior }) => QueryFunction<T> =
   ({ on401: unauthorizedBehavior }) =>
   async ({ queryKey }) => {
-    console.log("Query request to:", queryKey[0]);
+    const url = queryKey[0] as string;
+    console.log("Query request to:", url);
 
     // Create headers with auth token if available
     const headers: HeadersInit = {
@@ -72,7 +77,7 @@ export const getQueryFn: <T>(options: { on401: UnauthorizedBehavior }) => QueryF
       headers["Authorization"] = `Bearer ${token}`;
     }
 
-    const res = await fetch(queryKey[0] as string, {
+    const res = await fetch(url, {
       headers,
     });
 
